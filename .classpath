@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/Users/zengkane/Work/git/WebSpider/lib/org.apache.commons.httpclient_3.1.0.v20080605-1935.jar"/>
+	<classpathentry kind="lib" path="/Users/zengkane/Work/git/WebSpider/lib/htmlparser.jar"/>
+	<classpathentry kind="lib" path="/Users/zengkane/Work/git/WebSpider/lib/filterbuilder.jar"/>
+	<classpathentry kind="lib" path="/Users/zengkane/Work/git/WebSpider/lib/htmllexer.jar"/>
+	<classpathentry kind="lib" path="/Users/zengkane/Work/git/WebSpider/lib/sitecapturer.jar"/>
+	<classpathentry kind="lib" path="/Users/zengkane/Work/git/WebSpider/lib/thumbelina.jar"/>
+	<classpathentry kind="lib" path="/Users/zengkane/Work/git/WebSpider/lib/org.apache.commons.logging_1.0.4.v200904062259.jar"/>
+	<classpathentry kind="lib" path="/Users/zengkane/Work/git/WebSpider/lib/org.apache.commons.codec_1.3.0.v20100106-1700.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
