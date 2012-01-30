@@ -58,11 +58,11 @@ public class MyCrawler {
 	public static void main(String[]args)
 	{
 		MyCrawler crawler = new MyCrawler();
-//		crawler.crawling(new String[]{"http://www.baidu.com"});
-		com.kanezeng.utils.ConvertEncodings test = new com.kanezeng.utils.ConvertEncodings();
-		String myresult = test.un2ex("abc曾志坚");
-		System.out.println(myresult);
-		test.printPossibleString();
+		crawler.crawling(new String[]{"http://www.baidu.com"});
+//		com.kanezeng.utils.ConvertEncodings test = new com.kanezeng.utils.ConvertEncodings();
+//		String myresult = test.un2ex("abc曾志坚");
+//		System.out.println(myresult);
+//		test.printPossibleString();
 	}
 
 }

@@ -81,7 +81,7 @@ public class DownLoadFile {
 			/* 4.处理 HTTP 响应内容 */
 			byte[] responseBody = getMethod.getResponseBody();// 读取为字节数组
 			// 根据网页 url 生成保存时的文件名
-			filePath = "temp\\"
+			filePath = "/tmp/WebSpider/"
 					+ getFileNameByUrl(url, getMethod.getResponseHeader(
 							"Content-Type").getValue());
 			saveToLocal(responseBody, filePath);
