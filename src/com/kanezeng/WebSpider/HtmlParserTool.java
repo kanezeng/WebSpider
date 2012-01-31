@@ -1,6 +1,5 @@
 package com.kanezeng.WebSpider;
 
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,9 +12,11 @@ import org.htmlparser.tags.LinkTag;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
 
+import com.kanezeng.WebSpider.PreDefines.LinkFilter;
+
 public class HtmlParserTool {
-	// 获取一个网站上的链接,filter 用来过滤链接
-	public static Set<String> extracLinks(String url, LinkFilter filter) {
+	// Get all links using the given filter
+	public static Set<String> extracLinks(String url, String siteFilter, LinkFilter filter) {
 
 		Set<String> links = new HashSet<String>();
 		try {
@@ -42,7 +43,7 @@ public class HtmlParserTool {
 				{
 					LinkTag link = (LinkTag) tag;
 					String linkUrl = link.getLink();// url
-					if (filter.accept(linkUrl))
+					if (filter.accept(linkUrl,siteFilter))
 						links.add(linkUrl);
 				} else// <frame> 标签
 				{
@@ -54,7 +55,7 @@ public class HtmlParserTool {
 					if (end == -1)
 						end = frame.indexOf(">");
 					String frameUrl = frame.substring(5, end - 1);
-					if (filter.accept(frameUrl))
+					if (filter.accept(frameUrl,siteFilter))
 						links.add(frameUrl);
 				}
 			}
@@ -64,4 +65,3 @@ public class HtmlParserTool {
 		return links;
 	}
 }
-

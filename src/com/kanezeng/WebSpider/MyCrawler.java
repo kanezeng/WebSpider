@@ -1,68 +1,80 @@
 package com.kanezeng.WebSpider;
 
-
-
+import java.util.ArrayList;
 import java.util.Set;
+
+import com.kanezeng.WebSpider.PreDefines.LinkFilter;
+import com.kanezeng.WebSpider.PreDefines.LinkQueue;
+import com.kanezeng.WebSpider.PreDefines.WebSite;
 
 public class MyCrawler {
 	/**
-	 * 使用种子初始化 URL 队列
+	 * Initial link queue with given seeds.
+	 * 
 	 * @return
-	 * @param seeds 种子URL
-	 */ 
-	private void initCrawlerWithSeeds(String[] seeds)
-	{
-		for(int i=0;i<seeds.length;i++)
-			LinkQueue.addUnvisitedUrl(seeds[i]);
-	}	
+	 * @param seeds
+	 *            Seeds URL
+	 */
+	private void initCrawlerWithSeeds(String seed) {
+		LinkQueue.clear();
+		LinkQueue.addUnvisitedUrl(seed);
+	}
+
 	/**
-	 * 抓取过程
+	 * Crawling method.
+	 * 
 	 * @return
 	 * @param seeds
 	 */
-	public void crawling(String[] seeds)
-	{   //定义过滤器，提取以http://www.lietu.com开头的链接
-		LinkFilter filter = new LinkFilter(){
-			public boolean accept(String url) {
-				if(url.startsWith("http://www.baidu.com"))
+	public void crawling(WebSite currentSite) { // Define a filter to get
+												// specific
+		// URLs we need
+		LinkFilter filter = new LinkFilter() {
+			public boolean accept(String url, String filter) {
+				if (url.startsWith(filter))
 					return true;
 				else
 					return false;
 			}
 		};
-		//初始化 URL 队列
-		initCrawlerWithSeeds(seeds);
-		//循环条件：待抓取的链接不空且抓取的网页不多于1000
-		while(!LinkQueue.unVisitedUrlsEmpty()&&LinkQueue.getVisitedUrlNum()<=1000)
-		{
-			//队头URL出队列
-			String visitUrl=(String)LinkQueue.unVisitedUrlDeQueue();
-			if(visitUrl==null)
+		// Initiate URL queue
+		initCrawlerWithSeeds(currentSite.homeURL);
+		String siteFilter = currentSite.filter ;
+		// Work until all URLs are visited or reach 1000 pages
+		while (!LinkQueue.unVisitedUrlsEmpty()
+				&& LinkQueue.getVisitedUrlNum() <= 1000) {
+			// Get the first unvisited URL
+			String visitUrl = (String) LinkQueue.unVisitedUrlDeQueue();
+			if (visitUrl == null)
 				continue;
-			DownLoadFile downLoader=new DownLoadFile();
-			//下载网页
+			DownLoadFile downLoader = new DownLoadFile();
+			// Download the page
 			downLoader.downloadFile(visitUrl);
-			//该 url 放入到已访问的 URL 中
+			// Move the URL to visited list
 			LinkQueue.addVisitedUrl(visitUrl);
-			//提取出下载网页中的 URL
-			
-			Set<String> links=HtmlParserTool.extracLinks(visitUrl,filter);
-			//新的未访问的 URL 入队
-			for(String link:links)
-			{
-					LinkQueue.addUnvisitedUrl(link);
+			// Extract specific links from the downloaded page
+			Set<String> links = HtmlParserTool.extracLinks(visitUrl, siteFilter, filter);
+			// Put the new URLs into URL queue
+			for (String link : links) {
+				LinkQueue.addUnvisitedUrl(link);
 			}
 		}
 	}
-	//main 方法入口
-	public static void main(String[]args)
-	{
+
+	// main method
+	public static void main(String[] args) {
 		MyCrawler crawler = new MyCrawler();
-		crawler.crawling(new String[]{"http://www.baidu.com"});
-//		com.kanezeng.utils.ConvertEncodings test = new com.kanezeng.utils.ConvertEncodings();
-//		String myresult = test.un2ex("abc曾志坚");
-//		System.out.println(myresult);
-//		test.printPossibleString();
+		ArrayList<WebSite> allSites = InitWebSites.getWebSites();
+
+		for (WebSite currentSite : allSites) {
+			crawler.crawling(currentSite);
+		}
+//		crawler.crawling(new String[] { "http://www.baidu.com" });
+		// com.kanezeng.utils.ConvertEncodings test = new
+		// com.kanezeng.utils.ConvertEncodings();
+		// String myresult = test.un2ex("abc曾志坚");
+		// System.out.println(myresult);
+		// test.printPossibleString();
 	}
 
 }

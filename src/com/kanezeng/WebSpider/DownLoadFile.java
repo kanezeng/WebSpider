@@ -1,6 +1,5 @@
 package com.kanezeng.WebSpider;
 
-
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,22 +16,19 @@ public class DownLoadFile {
 	/**
 	 * 根据 url 和网页类型生成需要保存的网页的文件名 去除掉 url 中非文件名字符
 	 */
-	public  String getFileNameByUrl(String url,String contentType)
-	{
-		//remove http://
-		url=url.substring(7);
-		//text/html类型
-		if(contentType.indexOf("html")!=-1)
-		{
-			url= url.replaceAll("[\\?/:*|<>\"]", "_")+".html";
+	public String getFileNameByUrl(String url, String contentType) {
+		// remove http://
+		url = url.substring(7);
+		// text/html类型
+		if (contentType.indexOf("html") != -1) {
+			url = url.replaceAll("[\\?/:*|<>\"]", "_") + ".html";
 			return url;
 		}
-		//如application/pdf类型
-		else
-		{
-          return url.replaceAll("[\\?/:*|<>\"]", "_")+"."+
-          contentType.substring(contentType.lastIndexOf("/")+1);
-		}	
+		// 如application/pdf类型
+		else {
+			return url.replaceAll("[\\?/:*|<>\"]", "_") + "."
+					+ contentType.substring(contentType.lastIndexOf("/") + 1);
+		}
 	}
 
 	/**
@@ -57,8 +53,8 @@ public class DownLoadFile {
 		/* 1.生成 HttpClinet 对象并设置参数 */
 		HttpClient httpClient = new HttpClient();
 		// 设置 Http 连接超时 5s
-		httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(
-				5000);
+		httpClient.getHttpConnectionManager().getParams()
+				.setConnectionTimeout(5000);
 
 		/* 2.生成 GetMethod 对象并设置参数 */
 		GetMethod getMethod = new GetMethod(url);
@@ -82,8 +78,9 @@ public class DownLoadFile {
 			byte[] responseBody = getMethod.getResponseBody();// 读取为字节数组
 			// 根据网页 url 生成保存时的文件名
 			filePath = "/tmp/WebSpider/"
-					+ getFileNameByUrl(url, getMethod.getResponseHeader(
-							"Content-Type").getValue());
+					+ getFileNameByUrl(url,
+							getMethod.getResponseHeader("Content-Type")
+									.getValue());
 			saveToLocal(responseBody, filePath);
 		} catch (HttpException e) {
 			// 发生致命的异常，可能是协议不对或者返回的内容有问题
@@ -99,4 +96,3 @@ public class DownLoadFile {
 		return filePath;
 	}
 }
-

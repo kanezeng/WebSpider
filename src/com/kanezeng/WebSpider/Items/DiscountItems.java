@@ -17,6 +17,10 @@ public class DiscountItems {
 	public String discountRate = "";
 	public String updatedDate = "";
 	
+	public DiscountItems() {
+		this.updateDate();
+	}
+	
 	public DiscountItems(String name,String fromURL, String targetLink, String currentPrice, String originalPrice, String discountRate) {
 		this.name = name;
 		this.currentPrice = currentPrice;
